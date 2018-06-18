@@ -32,9 +32,11 @@ public class Enemy : MonoBehaviour {
         if (collision.gameObject.tag == "Player")
         {
             //gameplayManager.instance.playAudio();
+            UI_Manager.instance.addScore(-5);
             UI_Manager.instance.updateSliderValue("fuel", "reduce", 20);
             UI_Manager.instance.updateSliderValue("ammo", "reduce", 10);
             Instantiate(explosion, transform.position, Quaternion.identity);
+            UI_Manager.instance.showTextShame();
             Destroy(gameObject);
         }
         if (collision.gameObject.tag == "Bullet")
@@ -43,17 +45,20 @@ public class Enemy : MonoBehaviour {
             deathCounter++;
             if (deathCounter >= 2)
             {
-                //gameplayManager.instance.score++;
+                UI_Manager.instance.addScore(10);
                 GameObject explosionObj = Instantiate(explosion, transform.position, Quaternion.identity);
                 Destroy(explosionObj, 2.5f);
+                UI_Manager.instance.showTextPraise();
                 Destroy(gameObject);
             }
             Destroy(collision.gameObject);
         }
         if(collision.gameObject.tag == "Laser")
         {
+            UI_Manager.instance.addScore(10);
             GameObject explosionObj = Instantiate(explosion, transform.position, Quaternion.identity);
             Destroy(explosionObj, 2.5f);
+            UI_Manager.instance.showTextPraise();
             Destroy(gameObject);
         }
     }

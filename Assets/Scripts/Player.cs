@@ -1,13 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityStandardAssets.CrossPlatformInput;
 
 public class Player : MonoBehaviour {
     private Transform playerPositon;
     private GameObject bullet;
     private GameObject laser;
+    private float playerSpeed = 5f;
     private float fireRate = 0.5f;
     private float nextFire = 0;
+    private Rigidbody2D rb;
     private string weaponType;
 
     public string WeaponType
@@ -31,11 +34,33 @@ public class Player : MonoBehaviour {
         laser = (GameObject)Resources.Load("Prefabs/Laser/Laser");
         playerPositon = GetComponent<Transform>();
         playerPositon = GameObject.Find("PlayerSpawn").transform;
+        rb = GetComponent<Rigidbody2D>();
 	}
 	
 	// Update is called once per frame
 	void Update () {
         fireBullet();
+        inputHandler();
+        Vector3 minScreenBounds = Camera.main.ScreenToWorldPoint(new Vector3(0, 0, 0));
+        Vector3 maxScreenBounds = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 0));
+
+        transform.position = new Vector3(Mathf.Clamp(transform.position.x, minScreenBounds.x + 0.5f, maxScreenBounds.x - 0.5f), Mathf.Clamp(transform.position.y, minScreenBounds.y + 0.5f, maxScreenBounds.y - 0.5f), transform.position.z);
+    }
+
+    void inputHandler()
+    {
+        Vector2 input = GetInput();
+        rb.velocity = new Vector2(input.x * playerSpeed, input.y * playerSpeed);
+    }
+
+    private Vector2 GetInput()
+    {
+        Vector2 input = new Vector2
+        {
+            x = CrossPlatformInputManager.GetAxis("Horizontal"),
+            y = CrossPlatformInputManager.GetAxis("Vertical")
+        };
+        return input;
     }
 
     void fireBullet()
@@ -70,6 +95,7 @@ public class Player : MonoBehaviour {
         {
             Debug.Log("Bullet hit");
             UI_Manager.instance.updateSliderValue("fuel", "reduce", 10);
+            UI_Manager.instance.showTextShame();
             Destroy(collision);
         }
     }
