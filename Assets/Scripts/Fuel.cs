@@ -12,7 +12,7 @@ public class Fuel : MonoBehaviour {
         if (collision.gameObject.tag == "Player")
         {
             Debug.Log("collided with Fuel");
-            //gameplayManager.instance.refillFuel();
+            UI_Manager.instance.updateSliderValue("fuel", "fill", 30);
             Destroy(gameObject);
         }
     }

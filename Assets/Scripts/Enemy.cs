@@ -31,8 +31,9 @@ public class Enemy : MonoBehaviour {
     {
         if (collision.gameObject.tag == "Player")
         {
-            //gameplayManager.instance.reduceEntity();
             //gameplayManager.instance.playAudio();
+            UI_Manager.instance.updateSliderValue("fuel", "reduce", 20);
+            UI_Manager.instance.updateSliderValue("ammo", "reduce", 10);
             Instantiate(explosion, transform.position, Quaternion.identity);
             Destroy(gameObject);
         }
@@ -48,6 +49,12 @@ public class Enemy : MonoBehaviour {
                 Destroy(gameObject);
             }
             Destroy(collision.gameObject);
+        }
+        if(collision.gameObject.tag == "Laser")
+        {
+            GameObject explosionObj = Instantiate(explosion, transform.position, Quaternion.identity);
+            Destroy(explosionObj, 2.5f);
+            Destroy(gameObject);
         }
     }
 

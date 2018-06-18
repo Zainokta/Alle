@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EnemySpawn : MonoBehaviour {
     private GameObject enemy;
-    public float spawnRate = 5f;
+    public float spawnRate = 7.5f;
     // Use this for initialization
     void Start()
     {

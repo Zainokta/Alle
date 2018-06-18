@@ -13,7 +13,7 @@ public class Ammo : MonoBehaviour {
         if (collision.gameObject.tag == "Player")
         {
             Debug.Log("collided with Ammo");
-            //gameplayManager.instance.refillAmmo();
+            UI_Manager.instance.updateSliderValue("ammo", "fill", 30);
             Destroy(gameObject);
         }
     }
