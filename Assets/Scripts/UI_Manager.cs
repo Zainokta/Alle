@@ -18,6 +18,7 @@ public class UI_Manager : MonoBehaviour {
     private int random;
     private string[] text = new string[4];
     private Animator anim;
+    private float scrollSpeed = 0.5f;
 
 	// Use this for initialization
 	void Start () {
@@ -27,7 +28,7 @@ public class UI_Manager : MonoBehaviour {
         text[3] = "You fool!";
         txtScore.text = "Score : 0";
         anim = txtPraise.GetComponent<Animator>();
-        instance = this;
+        instance = this; 
 	}
 	
 	void Update () {
